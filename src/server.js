@@ -1,4 +1,5 @@
 require("express-async-errors");
+require("dotenv");
 const express = require("express");
 
 const router = require("./routes");
@@ -16,10 +17,10 @@ app.use((error, resquest, response, next) => {
                 status: "error",
                 message: error.message
             });
-        } 
+        }; 
 
         console.log(error.message);
-        
+
         return response.status(500).json({
             status: "error",
             message: "Internal Server Error"
@@ -28,8 +29,4 @@ app.use((error, resquest, response, next) => {
 
 const PORT = 3333;
 
-app.listen(3333, () => console.log(`Server is runnin(on port ${PORT)`)) => {
-        if(error instanceof AppError) {
-
-        };
-};;
+app.listen(3333, () => console.log(`Server is running on port ${PORT}`));
