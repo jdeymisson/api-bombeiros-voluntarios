@@ -55,7 +55,7 @@ class UsersController {
     
             checkCpfAndEmail = await knex("users").first();
         };
-      
+
         if(checkCpfAndEmail){
             if(checkCpfAndEmail.cpf === cpf && checkCpfAndEmail.id !== id){
                 throw new AppError("CPF já esta em uso!")
@@ -87,6 +87,32 @@ class UsersController {
         return response.status(200).json({
             message: "Usuário atualizado com sucesso!"
         });
+    };
+
+    async index(request, response){
+        const { id } = request.params;
+
+        const user = await knex("users")
+            .where({ id })
+            .first();
+
+        response.status(200).json(user);
+    };
+
+    async show(request, response){
+        const users = await knex("users")
+            .orderBy("id", "asc");
+
+        response.status(200).json(users);
+    };
+
+    async delete(request, response){
+        const { id } = request.params;
+
+        await knex("users")
+            .delete()
+            .where({ id });
+        response.status(200).json({ message: "Usuário deletado com sucesso!"});
     };
 };
 
