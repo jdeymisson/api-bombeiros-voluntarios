@@ -40,8 +40,7 @@ class UsersController {
     async update(request, response){
         const { id, cpf, name, email, password, admin } = request.body;
 
-        let checkCpfAndEmail;
-
+        
         if( cpf || email){
             let query = knex("users");
 
@@ -53,21 +52,22 @@ class UsersController {
                 query.orWhere({ email});
             };
     
-            checkCpfAndEmail = await knex("users").first();
-        };
+            let checkCpfAndEmail = await knex("users").first();
 
-        if(checkCpfAndEmail){
-            if(checkCpfAndEmail.cpf === cpf && checkCpfAndEmail.id !== id){
-                throw new AppError("CPF já esta em uso!")
-            };
-
-            if(checkCpfAndEmail.email === email && checkCpfAndEmail.id !== id){
-                throw new AppError("E-mail já esta em uso!")
+            if(checkCpfAndEmail){
+                if(checkCpfAndEmail.cpf === cpf && checkCpfAndEmail.id !== id){
+                    throw new AppError("CPF já esta em uso!")
+                };
+    
+                if(checkCpfAndEmail.email === email && checkCpfAndEmail.id !== id){
+                    throw new AppError("E-mail já esta em uso!")
+                };
             };
         };
 
         const user = await knex("users")
-            .where({ id });
+            .where({ id })
+            .first();
 
         user.cpf = cpf ?? user.cpf;
         user.name = name ?? user.name;
