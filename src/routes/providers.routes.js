@@ -1,7 +1,6 @@
 const { Router } = require("express");
 
 const ProvidersController = require("../controllers/ProvidersController");
-
 const providersController = new ProvidersController();
 
 const providersRoutes = new Router();

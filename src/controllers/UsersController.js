@@ -38,8 +38,9 @@ class UsersController {
     };
 
     async update(request, response){
-        const { id, cpf, name, email, password, admin } = request.body;
+        const { cpf, name, email, password, admin } = request.body;
 
+        const user_id = request.user.id;
         
         if( cpf || email){
             let query = knex("users");
@@ -55,18 +56,18 @@ class UsersController {
             let checkCpfAndEmail = await knex("users").first();
 
             if(checkCpfAndEmail){
-                if(checkCpfAndEmail.cpf === cpf && checkCpfAndEmail.id !== id){
+                if(checkCpfAndEmail.cpf === cpf && checkCpfAndEmail.id !== user_id){
                     throw new AppError("CPF já esta em uso!")
                 };
     
-                if(checkCpfAndEmail.email === email && checkCpfAndEmail.id !== id){
+                if(checkCpfAndEmail.email === email && checkCpfAndEmail.id !== user_id){
                     throw new AppError("E-mail já esta em uso!")
                 };
             };
         };
 
         const user = await knex("users")
-            .where({ id })
+            .where({ id: user_id })
             .first();
 
         user.cpf = cpf ?? user.cpf;
@@ -82,7 +83,7 @@ class UsersController {
                 email: user.email,
                 password: user.password,
                 admin: user.admin
-            }).where({ id });
+            }).where({ id: user_id });
 
         return response.status(200).json({
             message: "Usuário atualizado com sucesso!"

@@ -2,7 +2,9 @@ const knex = require("../database/knex");
 
 class TimeEntries {
     async create(request, response){
-        const { cpf, name, hours, work, launch_user, user_id, provider_id } = request.body;
+        const { cpf, name, hours, work, launch_user, provider_id } = request.body;
+        const { id: user_id } = request.user.id;
+
     
         await knex("time_entries")
             .insert({
