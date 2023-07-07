@@ -8,7 +8,7 @@ class UsersController {
         const { cpf, name, email, password, admin } = request.body;
         
         if(cpf && name && email && password){
-            const checkCpfAndEmail = await knex("checkCpfAndEmails")
+            const checkCpfAndEmail = await knex("users")
                 .where({ cpf })
                 .orWhere({ email })
                 .first();
