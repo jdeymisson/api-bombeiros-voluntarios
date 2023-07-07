@@ -11,4 +11,4 @@ exports.up = knex => knex.schema.createTable("providers", table => {
     table.datetime("updated_at").defaultTo(knex.fn.now());
 });
 
-exports.down = knex => knex.schema.dropTable("users");
+exports.down = knex => knex.schema.dropTable("providers");
