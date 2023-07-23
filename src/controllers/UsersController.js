@@ -25,8 +25,10 @@ class UsersController {
 
             const hashedPassword = await hash(password, 8);
 
+            const formattedCpf = cpf.replace(/[.-]/g, '');
+
             await knex("users").insert({
-                cpf,
+                cpf: formattedCpf,
                 name,
                 email,
                 password: hashedPassword,
@@ -38,9 +40,9 @@ class UsersController {
     };
 
     async update(request, response){
-        const { cpf, name, email, password, admin } = request.body;
+        const { cpf, name, email, password, admin, idUserAction } = request.body;
 
-        const user_id = request.user.id;
+        const user_id = idUserAction ?? request.user.id;
         
         if( cpf || email){
             let query = knex("users");
@@ -73,8 +75,11 @@ class UsersController {
         user.cpf = cpf ?? user.cpf;
         user.name = name ?? user.name;
         user.email = email ?? user.email;
-        user.password = password ? await hash(password.toString(), 8) : password;
         user.admin = admin ?? false;
+
+        if(password !== user.password && password !== undefined){
+            user.password = await hash(password.toString(), 8);
+        };
 
         await knex("users")
             .update({
@@ -86,7 +91,8 @@ class UsersController {
             }).where({ id: user_id });
 
         return response.status(200).json({
-            message: "Usuário atualizado com sucesso!"
+            message: "Usuário atualizado com sucesso!",
+            user
         });
     };
 

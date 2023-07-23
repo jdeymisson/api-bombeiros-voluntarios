@@ -9,14 +9,14 @@ const ensureAuthenticated = async (request, response, next) => {
         throw new AppError("JWT Token não informado!", 401);
     };
 
-    const [, token] = authHeader.split(" ");
+    const [, token] = authHeader.   split(" ");
 
     try {
-       const { sub: user_id } = verify(token, authConfig.jwt.secret);
-       request.user = {
-        id: Number(user_id)
-       };
-       next();
+        const { sub: user_id } = verify(token, authConfig.jwt.secret);
+        request.user = {
+            id: Number(user_id)
+        };
+        next();
     } catch {
         throw new AppError("JWT Token Inválido!", 401);
     };

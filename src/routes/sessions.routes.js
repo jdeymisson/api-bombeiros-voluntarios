@@ -5,6 +5,6 @@ const sessionsRoutes = Router();
 const SessionsController = require("../controllers/SessionsController");
 const sessionsController = new SessionsController();
 
-sessionsRoutes.use("/", sessionsController.create);
+sessionsRoutes.post("/", sessionsController.create);
 
 module.exports = sessionsRoutes;
