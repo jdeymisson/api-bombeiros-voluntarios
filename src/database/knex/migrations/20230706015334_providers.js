@@ -3,7 +3,6 @@ exports.up = knex => knex.schema.createTable("providers", table => {
     table.increments("id");
     table.text("cpf");
     table.text("name");
-    table.text("tel");
     table.text("origin");
     table.float("hours");
 
