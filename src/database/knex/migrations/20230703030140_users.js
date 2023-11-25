@@ -6,6 +6,7 @@ exports.up = knex => knex.schema.createTable("users", table => {
     table.text("email");
     table.text("password");
     table.boolean("admin").defaultTo(false);
+    table.boolean("active").defaultTo(true);
 
     table.datetime("created_at").defaultTo(knex.fn.now());
     table.datetime("updated_at").defaultTo(knex.fn.now());

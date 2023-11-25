@@ -84,7 +84,7 @@ class ProvidersController {
         const { id } = request.params;
 
         await knex("providers")
-            .delete()
+            .update({active: false})
             .where({ id });
         response.status(200).json({ message: "Prestador deletado com sucesso!"});
     };

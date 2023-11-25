@@ -6,6 +6,7 @@ exports.up = knex => knex.schema.createTable("providers", table => {
     table.text("tel");
     table.text("origin");
     table.float("hours");
+    table.boolean("active").defaultTo(true);
 
     table.datetime("created_at").defaultTo(knex.fn.now());
     table.datetime("updated_at").defaultTo(knex.fn.now());

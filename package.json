@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/server.js"
+    "start": "pm2-runtime start ecosystem.config.js --env production",
+    "dev": "nodemon src/server.js",
+    "migrate": "nodemon ./src/server.js"
   },
   "repository": {
     "type": "git",
@@ -25,7 +27,8 @@
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^9.0.1",
     "knex": "^2.4.2",
-    "pg": "^8.11.1"
+    "pg": "^8.11.1",
+    "pm2": "^5.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
