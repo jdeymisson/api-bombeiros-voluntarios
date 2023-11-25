@@ -2,18 +2,18 @@ const knex = require("../database/knex");
 
 class TimeEntries {
     async create(request, response){
-        const { cpf, name, hours, work, launch_user, provider_id } = request.body;
-        const { id: user_id } = request.user.id;
-
-    
+        const { cpf, name, hours, entry, exit, work, launch_user, provider_id } = request.body;
+        
         await knex("time_entries")
             .insert({
                 cpf,
                 name,
                 hours,
+                entry,
+                exit,
                 work,
                 launch_user,
-                user_id,
+                user_id: request.user.id,
                 provider_id
             });
 
@@ -22,11 +22,22 @@ class TimeEntries {
 
     async show(request, response){
         const { id } = request.params;
-    
+        console.log("oxeeee12")
+
         const releasesHours = await knex("time_entries")
             .where({ provider_id: id });
 
-            response.status(201).json({releasesHours: releasesHours});
+            response.status(201).json(releasesHours);
+    };
+
+    async index(request, response){
+        const { id } = request.query;
+        console.log("rapaz")
+        const releasesHours = await knex("time_entries")
+            .where({ id })
+            .first();
+
+            response.status(201).json(releasesHours);
     };
 
     async delete(request, response){
