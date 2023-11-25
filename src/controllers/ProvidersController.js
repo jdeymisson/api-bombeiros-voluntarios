@@ -72,6 +72,7 @@ class ProvidersController {
 
     async show(request, response){
         const providers = await knex("providers")
+            .where({ active: true })
             .orderBy("id", "asc");
         response.status(200).json(providers);
     };

@@ -22,7 +22,6 @@ class TimeEntries {
 
     async show(request, response){
         const { id } = request.params;
-        console.log("oxeeee12")
 
         const releasesHours = await knex("time_entries")
             .where({ provider_id: id });
